@@ -1,0 +1,19 @@
+backend:
+  name: github
+  repo: 0805gugus/fluffy-spork 
+  branch: main
+
+media_folder: "images" # Папка для загрузки картинок
+public_folder: "/images"
+
+collections:
+  - name: "blog"
+    label: "Посты"
+    folder: "content/blog"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Заголовок", name: "title", widget: "string"}
+      - {label: "Дата", name: "date", widget: "datetime"}
+      - {label: "Тег", name: "tag", widget: "string"}
+      - {label: "Текст статьи", name: "body", widget: "markdown"}
