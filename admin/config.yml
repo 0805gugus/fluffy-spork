@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: 0805gugus/fluffy-spork # Твой реальный путь
+  repo: 0805gugus/fluffy-spork
   branch: main
 
 media_folder: "images"
