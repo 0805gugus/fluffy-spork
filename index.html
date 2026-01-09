@@ -5,161 +5,128 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мой Яркий Блог</title>
     <style>
-        /* Основные настройки */
         :root {
-            --yellow: #fff000;
-            --pink: #ff00ff;
-            --cyan: #00ffff;
-            --black: #000000;
+            --yellow: #fff000; --pink: #ff00ff; --cyan: #00ffff; --black: #000000;
         }
 
         body {
             background-color: #121212;
-            font-family: 'Arial Black', Gadget, sans-serif;
-            margin: 0;
-            padding: 20px;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            font-family: 'Arial Black', sans-serif;
+            margin: 0; padding: 20px; color: white;
+            display: flex; flex-direction: column; align-items: center;
         }
 
-        /* Шапка сайта */
         header {
-            background: var(--pink);
-            color: var(--black);
-            padding: 40px;
-            border: 6px solid white;
-            box-shadow: 15px 15px 0px var(--cyan);
-            text-align: center;
-            width: 90%;
-            max-width: 800px;
-            margin-bottom: 50px;
-            transform: rotate(-2deg);
+            background: var(--pink); color: var(--black); padding: 40px;
+            border: 6px solid white; box-shadow: 15px 15px 0px var(--cyan);
+            text-align: center; width: 90%; max-width: 800px;
+            margin-bottom: 50px; transform: rotate(-2deg);
         }
 
-        /* Контейнер для постов */
         .blog-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            width: 100%;
-            max-width: 1100px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px; width: 100%; max-width: 1100px;
         }
 
-        /* Карточка поста */
         .card {
-            background: white;
-            color: var(--black);
-            border: 5px solid var(--black);
-            padding: 20px;
-            box-shadow: 10px 10px 0px var(--yellow);
-            transition: 0.3s;
-            position: relative;
-            cursor: pointer;
+            background: white; color: var(--black); border: 5px solid var(--black);
+            padding: 20px; box-shadow: 10px 10px 0px var(--yellow);
+            transition: 0.3s; cursor: pointer;
         }
 
-        /* Анимация при наведении (прыжок) */
         .card:hover {
-            transform: translateY(-15px) scale(1.03);
-            box-shadow: 15px 25px 0px var(--pink);
-            background: var(--cyan);
+            transform: translateY(-10px); box-shadow: 15px 20px 0px var(--pink);
         }
 
-        .card h2 {
-            margin-top: 0;
-            font-size: 1.5rem;
-            text-transform: uppercase;
-        }
-
-        .card p {
-            font-family: 'Segoe UI', sans-serif;
-            font-weight: bold;
-        }
-
-        /* Кнопка */
         .btn {
-            background: var(--black);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            font-family: inherit;
-            text-transform: uppercase;
-            cursor: pointer;
-            box-shadow: 4px 4px 0px var(--pink);
+            background: var(--black); color: white; padding: 10px 20px;
+            border: none; text-transform: uppercase; cursor: pointer;
+            box-shadow: 4px 4px 0px var(--pink); margin-top: 15px;
         }
 
-        .btn:hover {
-            background: var(--pink);
-            color: var(--black);
+        /* --- СТИЛИ МОДАЛЬНОГО ОКНА --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); display: none; /* Скрыто по умолчанию */
+            justify-content: center; align-items: center; z-index: 1000;
         }
 
-        /* Простая секция комментариев */
+        .modal-content {
+            background: white; color: black; border: 8px solid var(--black);
+            padding: 40px; width: 80%; max-width: 600px;
+            box-shadow: 20px 20px 0px var(--cyan);
+            position: relative; animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute; top: 10px; right: 10px;
+            background: var(--pink); border: 3px solid black;
+            font-weight: bold; cursor: pointer; padding: 5px 10px;
+        }
+
+        /* Форма контактов */
         .comments {
-            margin-top: 60px;
-            width: 90%;
-            max-width: 800px;
-            background: var(--yellow);
-            color: var(--black);
-            padding: 20px;
-            border: 5px solid white;
-            box-shadow: 10px 10px 0px var(--cyan);
+            margin-top: 60px; width: 90%; max-width: 800px;
+            background: var(--yellow); color: var(--black);
+            padding: 20px; border: 5px solid white; box-shadow: 10px 10px 0px var(--cyan);
         }
-
-        textarea {
-            width: 100%;
-            height: 100px;
-            border: 3px solid var(--black);
-            margin: 10px 0;
-            padding: 10px;
-            box-sizing: border-box;
-            font-family: sans-serif;
-        }
-
     </style>
 </head>
 <body>
 
     <header>
         <h1>⚡️ БЛОГ ПРОГРАММИСТА ⚡️</h1>
-        <p>Яркий стиль. Громкие мысли.</p>
     </header>
 
     <div class="blog-container">
-        <div class="card">
+        <div class="card" onclick="openModal('Статья 1', 'Здесь должен быть длинный и очень интересный текст про программирование. Ты можешь написать тут целую историю!')">
             <span style="background:var(--pink); color:white; padding:5px;">#CODE</span>
             <h2>Моя первая статья</h2>
-            <p>Этот сайт создан с использованием чистых HTML и CSS. Никакого лишнего мусора!</p>
+            <p>Нажми, чтобы прочитать полностью...</p>
             <button class="btn">Читать</button>
         </div>
 
-        <div class="card" style="box-shadow: 10px 10px 0px var(--cyan);">
-            <span style="background:var(--yellow); color:black; padding:5px;">#DESIGN</span>
+        <div class="card" onclick="openModal('Про Дизайн', 'Яркие цвета — это не просто мода, это способ заявить о себе. В 2026 году скучные сайты больше не работают!')">
+            <span style="background:var(--cyan); color:black; padding:5px;">#DESIGN</span>
             <h2>Почему ярко — это круто</h2>
-            <p>В мире скучных серых сайтов будь тем, кто сияет как неоновая вывеска.</p>
-            <button class="btn">Читать</button>
-        </div>
-
-        <div class="card">
-            <span style="background:var(--pink); color:white; padding:5px;">#LIFE</span>
-            <h2>Планы на 2026</h2>
-            <p>Захватить мир программирования и сделать интернет чуточку красивее.</p>
+            <p>Нажми, чтобы прочитать полностью...</p>
             <button class="btn">Читать</button>
         </div>
     </div>
 
-   <div class="comments">
-    <h3>Напиши мне сообщение:</h3>
-    <form action="https://formspree.io/f/xzddpere" method="POST">
-        <label>Твой Email:</label>
-        <input type="email" name="email" required style="width: 100%; border: 3px solid black; padding: 10px; margin-bottom: 10px;">
-        
-        <label>Сообщение:</label>
-        <textarea name="message" placeholder="Напиши что-нибудь умное..." required></textarea>
-        
-        <button type="submit" class="btn">Отправить почту</button>
-    </form>
-</div>
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-modal" onclick="closeModal()">X</button>
+            <h2 id="modalTitle">Заголовок</h2>
+            <div id="modalText">Текст статьи...</div>
+        </div>
+    </div>
+
+    <div class="comments">
+        <h3>Напиши мне:</h3>
+        <form action="https://formspree.io/f/xzddpere" method="POST">
+            <input type="email" name="email" placeholder="Твой Email" required style="width:100%; margin-bottom:10px; padding:10px; border:3px solid black;">
+            <textarea name="message" placeholder="Сообщение..." required></textarea>
+            <button type="submit" class="btn">Отправить почту</button>
+        </form>
+    </div>
+
+    <script>
+        function openModal(title, text) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalText').innerText = text;
+            document.getElementById('modalOverlay').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+        }
+    </script>
 
 </body>
 </html>
